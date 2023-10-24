@@ -14,9 +14,8 @@ function Game() {
   const [guesses, setGuesses] = React.useState([]);
 
   function addGuess(guess) {
-    const id = Math.random();
     const newGuesses = [...guesses];
-    newGuesses.push({ id, guess });
+    newGuesses.push(guess);
     setGuesses(newGuesses);
   }
 
