@@ -6,15 +6,12 @@ import { sample } from "../../utils";
 import Banner from "../Banner";
 import GuessForm from "../GuessForm";
 import GuessResults from "../GuessResults";
-
-// Pick a random word on every pageload.
-const answer = sample(WORDS);
-// To make debugging easier, we'll log the solution in the console.
-console.info({ answer });
+import Keyboard from "../Keyboard";
 
 function Game() {
-  const [showBanner, setShowBanner] = React.useState(false);
-  const [bannerType, setBannerType] = React.useState("");
+  const [answer, setAnswer] = React.useState(sample(WORDS));
+  console.log(answer);
+  const [status, setStatus] = React.useState("running");
   const [guesses, setGuesses] = React.useState([]);
 
   function addGuess(guess) {
@@ -23,23 +20,30 @@ function Game() {
     setGuesses(newGuesses);
 
     if (guess === answer.toUpperCase()) {
-      setBannerType("happy");
-      setShowBanner(true);
+      setStatus("won");
     } else if (newGuesses.length === NUM_OF_GUESSES_ALLOWED) {
-      setBannerType("sad");
-      setShowBanner(true);
+      setStatus("lose");
     }
+  }
+
+  function handleRestartGame() {
+    setAnswer(sample(WORDS));
+    setStatus("running");
+    setGuesses([]);
   }
 
   return (
     <>
       <GuessResults guesses={guesses} answer={answer} />
-      <GuessForm isDisabled={showBanner} onAddGuess={addGuess} />
-      {showBanner && (
+      <GuessForm isDisabled={status !== "running"} onAddGuess={addGuess} />
+      <Keyboard answer={answer} guesses={guesses} />
+
+      {status !== "running" && (
         <Banner
           answer={answer}
           guessesLens={guesses.length}
-          type={bannerType}
+          status={status}
+          onRestart={handleRestartGame}
         />
       )}
     </>

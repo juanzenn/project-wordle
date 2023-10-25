@@ -230,3 +230,68 @@ h1 {
     transform: translateY(0%);
   }
 }
+
+/* 
+  RestartButton 
+*/
+
+button.restart {
+  padding: 0.5rem 2rem;
+  border: 1px solid;
+  border-color: var(--color-gray-700);
+  border-radius: 4px;
+  margin-top: 4px;
+  color: var(--color-gray-700);
+  font-weight: bold;
+}
+
+button.restart:hover {
+  border-color: var(--color-gray-900);
+  background-color: var(--color-gray-700);
+  color: var(--color-gray-100);
+}
+
+/* 
+  Keyboard
+*/
+
+.keyboard-row {
+  display: flex;
+  justify-content: center;
+  margin-inline: auto;
+  gap: 4px;
+}
+
+.keyboard-row:not(:last-of-type) {
+  margin-bottom: 4px;
+}
+
+.keyboard-row__cell {
+  --size: 30px;
+  padding: 4px;
+  border-radius: 4px;
+  background-color: var(--color-gray-900);
+  color: var(--color-gray-100);
+  width: var(--size);
+  height: var(--size);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: capitalize;
+  font-weight: bold;
+}
+
+.keyboard-row__cell.incorrect {
+  background-color: var(--color-gray-100);
+  color: var(--color-gray-900);
+}
+
+.keyboard-row__cell.misplaced {
+  background-color: var(--color-warning);
+  color: white;
+}
+
+.keyboard-row__cell.correct {
+  background-color: var(--color-success);
+  color: white;
+}
