@@ -2,6 +2,7 @@ import React from "react";
 
 import { NUM_OF_GUESSES_ALLOWED } from "../../constants";
 import { WORDS } from "../../data";
+import { checkGuess } from "../../game-helpers";
 import { sample } from "../../utils";
 import Banner from "../Banner";
 import GuessForm from "../GuessForm";
@@ -10,9 +11,10 @@ import Keyboard from "../Keyboard";
 
 function Game() {
   const [answer, setAnswer] = React.useState(sample(WORDS));
-  console.log(answer);
   const [status, setStatus] = React.useState("running");
   const [guesses, setGuesses] = React.useState([]);
+
+  const validatedGuesses = guesses.map((guess) => checkGuess(guess, answer));
 
   function addGuess(guess) {
     const newGuesses = [...guesses];
@@ -34,9 +36,9 @@ function Game() {
 
   return (
     <>
-      <GuessResults guesses={guesses} answer={answer} />
+      <GuessResults validatedGuesses={validatedGuesses} />
       <GuessForm isDisabled={status !== "running"} onAddGuess={addGuess} />
-      <Keyboard answer={answer} guesses={guesses} />
+      <Keyboard validatedGuesses={validatedGuesses} />
 
       {status !== "running" && (
         <Banner

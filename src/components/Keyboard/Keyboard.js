@@ -1,24 +1,15 @@
 import React from "react";
-import { checkGuess } from "../../game-helpers";
 
-const ROWS = ["qwertyuiop", "asdfghjkl", "zxcvbnm"];
+const ROWS = ["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"];
 
-function Keyboard({ answer, guesses }) {
-  function addClassToCell(letter) {
-    for (let i = 0; i < guesses.length; i++) {
-      const guess = guesses[i];
-      if (!guess) continue;
-      const isLetterOnGuess = guess.split("").indexOf(letter);
-      if (isLetterOnGuess === -1) continue;
+function Keyboard({ validatedGuesses }) {
+  let status = {};
 
-      const { status } =
-        checkGuess(guess, answer).find((l) => l.letter === letter) || {};
-
-      return status ?? "";
-    }
-
-    return "";
-  }
+  validatedGuesses.forEach((guess) => {
+    guess.forEach((output) => {
+      status[output.letter] = output.status;
+    });
+  });
 
   return (
     <div>
@@ -30,10 +21,8 @@ function Keyboard({ answer, guesses }) {
             {letters.map((letter) => {
               return (
                 <span
-                  className={`keyboard-row__cell ${addClassToCell(
-                    letter.toLocaleUpperCase()
-                  )}`}
                   key={letter}
+                  className={`keyboard-row__cell ${status[letter]}`}
                 >
                   {letter}
                 </span>
